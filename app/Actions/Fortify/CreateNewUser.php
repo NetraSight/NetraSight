@@ -41,6 +41,7 @@ class CreateNewUser implements CreatesNewUsers
             Http::post('https://netrasight.com/api/self-host/user-details', [
                 'name' => $user->name,
                 'email' => $user->email,
+                'domain' => url('/'),
             ]);
         } catch (\Exception $e) {
             // Log the exception or handle the error as needed
