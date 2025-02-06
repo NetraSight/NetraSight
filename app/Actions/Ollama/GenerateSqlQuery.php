@@ -65,11 +65,7 @@ class GenerateSqlQuery
                 ];
             }
 
-            Log::info('Generated SQL Query from Ollama', ['query' => $cleanSqlQuery]);
-
             $data = DB::select($cleanSqlQuery);
-
-            Log::info('Data Retrieved from Database', ['data' => $data]);
 
             return [
                 'success' => true,
@@ -78,8 +74,6 @@ class GenerateSqlQuery
                 // 'html' => GenerateUIFromData::run($data),
             ];
         } catch (\Exception $e) {
-            Log::error('Ollama Service Error', ['message' => $e->getMessage()]);
-
             return [
                 'error' => 500,
                 'message' => 'An error occurred: ' . $e->getMessage(),
