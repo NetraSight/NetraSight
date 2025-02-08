@@ -1,66 +1,100 @@
+# NetraSight - AI-Powered Business Insights Platform
 
-## Mosaic - Admin Dashboard Template for Laravel
+## Overview
+NetraSight is an open-source, self-hosted AI-driven analytics platform that enables businesses to extract insights from their databases effortlessly. By integrating Llama AI with your database, NetraSight replaces the need for a data analyst by automatically generating queries, visualizing data, and providing real-time business intelligence.
 
-How to get the best out of this template:
+## Features
+- **Self-Hosted & Open Source**: Full control over your data with easy deployment.
+- **AI-Powered Insights**: NetraSight converts user queries into SQL, retrieves data, and generates meaningful insights.
+- **Interactive Dashboards**: AI-driven charts and reports for better decision-making.
+- **Plugin System**: Extend functionality with plugins like Data Analysis, Dynamic Dashboards, Marketing Insights, and Report Generation.
+- **One-Click Setup**: Get started quickly with Docker and automated scripts.
+- **Database Agnostic**: Works with MySQL, PostgreSQL, and more (support expanding).
 
-#### Setup your .env config file
+## How It Works
+1. **Connect Your Database**: Plug in your MySQL or PostgreSQL database.
+2. **Ask AI Any Question**: Query your business data using natural language.
+3. **AI Translates to SQL**: Llama AI generates optimized SQL queries.
+4. **Retrieve & Visualize Data**: AI fetches data and presents it in intuitive dashboards.
+5. **Gain Insights**: Get trends, analytics, and predictive business insights.
 
-Make sure to add the database configuration in your .env file such as database name, username, password and port.
+## Installation
+### **Requirements**
+- **Docker & Docker Compose**
+- **PHP 8.1+**
+- **Node.js 16+**
+- **MySQL 8.0+**
+- **Composer & NPM**
 
-##
-#### Install Laravel dependencies
+### **Step 1: Clone Repository**
+```bash
+git clone https://github.com/netrasight/netrasight.git
+cd netrasight
+```
 
-In the root of your Laravel application, run the ``php composer.phar install`` (or ``composer install``) command to install all of the framework's dependencies. 
+### **Step 2: Set Up Backend**
+```bash
+cd backend
+cp .env.example .env
+composer install
+php artisan key:generate
+php artisan migrate --seed
+```
 
-##
-#### Migrate the tables
+### **Step 3: Set Up Frontend**
+```bash
+cd ../frontend
+npm install
+npm run dev
+```
 
-In order to migrate the tables and setup the bare minimum structure for this app
-to display some data you shoud open your terminal, locate and enter this project
-directory and run the following command
+### **Step 4: Run with Docker**
+```bash
+docker-compose up -d
+```
 
-##### ``php artisan migrate``
+## API Usage
+NetraSight provides REST APIs to interact with AI-generated insights.
+```bash
+POST /api/query
+{
+  "query": "What was the AOV of the last 100 orders?"
+}
+```
+**Response:**
+```json
+{
+  "data": { "aov": 123.45 }
+}
+```
 
-##
-#### Generate some test data
+## Plugin Development
+Extend NetraSight with custom plugins.
+### **Create a Plugin**
+```bash
+cd plugins
+mkdir my-custom-plugin
+cd my-custom-plugin
+```
+Add a `plugin.json` for metadata:
+```json
+{
+  "name": "My Custom Plugin",
+  "description": "Adds custom analytics",
+  "version": "1.0.0"
+}
+```
+Activate the plugin in `config/plugins.php`.
 
-Once you have all your database tables setup you can then generate some test data
-which will come from our pre-made database table seeders.
-In order to do so, in your terminal run the following command
+## Community & Contributions
+NetraSight is community-driven! Contribute by:
+- Reporting issues
+- Submitting pull requests
+- Developing plugins
 
-##### ``php artisan db:seed``
+## License
+NetraSight is licensed under the **MIT License**. Free for personal and commercial use.
 
-N.B. If you run this command twice, all the test data will be duplicated and added
-to the existing table data, if you want to avoid having duplicate test data please
-make sure to ``truncate`` the following tables in your database:
-- ``campaign_marketer``
-- ``campaigns``
-- ``customers``
-- ``datafeeds``
-- ``invoices``
-- ``jobs``
-- ``marketers``
-- ``members``
-- ``orders``
-- ``transactions``
+## Support
+For issues and feature requests, visit our [GitHub Issues](https://github.com/netrasight/netrasight/issues).
 
-##
-#### Compile the front-end
- 
-In order to compile all the CSS and JS assets for the front-end of this site you need to install NPM dependencies. To do that, open the terminal, type npm install and press the ``Enter`` key.
-
-Then run ``npm run dev`` in the terminal to run a development server to re-compile static assets when making changes to the template.
-
-When you have done with changes, run ``npm run build`` for compiling and minify for production.
-
-##
-#### Launch the Laravel backend
-
-In order to make this Laravel installation work properly on your local machine you
-can run the following command in your terminal window.
-
-##### ``php artisan serve``
-
-You should receive a message similar to this
-``Starting Laravel development server: http://127.0.0.1:8000`` simply copy the URL
-in your browser and you'll be ready to test out your new mosaic laravel app.
