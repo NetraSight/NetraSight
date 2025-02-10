@@ -9,9 +9,7 @@
 
     </head>
     <body class="font-sans antialiased dark:bg-black dark:text-white/50">
-        {{ dd($response) }}
-        <div> {{ $response }}</div>
-        {{-- <div>{!! $htmlContent !!}</div> --}}
+        <div>{!! $htmlContent !!}</div>
 
     </body>
 </html>
