@@ -34,6 +34,7 @@ class GenerateSqlQuery
             $response = Http::post($this->apiUrl, [
                 'model' => 'llama3.2',
                 'prompt' => $prompt,
+                'stream' => false,
             ]);
 
             if (!$response->successful()) {
@@ -48,14 +49,28 @@ class GenerateSqlQuery
                 ];
             }
 
-            $responseBody = '';
-            $stream = $response->toPsrResponse()->getBody();
+            // Get full JSON response
+            $responseBody = $response->json();
 
-            while (!$stream->eof()) {
-                $responseBody .= $stream->read(1024);
+            if (!isset($responseBody['sql_query']) || empty($responseBody['sql_query'])) {
+                Log::error('Generated SQL Query is empty or missing');
+                return [
+                    'error' => 400,
+                    'message' => 'Generated SQL Query is empty',
+                ];
             }
 
-            $cleanSqlQuery = GetCleanSqlQuery::run($responseBody);
+            $cleanSqlQuery = GetCleanSqlQuery::run($responseBody['sql_query']);
+
+            // TODO: add support for multiple queries
+            // $responseBody = '';
+            // $stream = $response->toPsrResponse()->getBody();
+
+            // while (!$stream->eof()) {
+            //     $responseBody .= $stream->read(1024);
+            // }
+
+            // $cleanSqlQuery = GetCleanSqlQuery::run($responseBody);
 
             if (empty($cleanSqlQuery)) {
                 Log::error('Generated SQL Query is empty');
